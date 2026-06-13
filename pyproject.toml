@@ -1,0 +1,48 @@
+[project]
+name = "resize-kit"
+version = "1.0.0"
+description = "Enterprise multi-format lossy compressor with precise size targeting (images, audio, video, Office, PDF)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [{ name = "resize-kit" }]
+keywords = ["compression", "image", "video", "audio", "pdf", "office", "ffmpeg"]
+
+dependencies = [
+    "Pillow>=10.2",
+    "PyMuPDF>=1.24",
+    "pikepdf>=8.0",
+    "PyQt5>=5.15",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+
+[project.scripts]
+resize-kit = "resize_kit.cli:main"
+
+[project.gui-scripts]
+resize-kit-gui = "resize_kit.gui.__main__:main"
+
+[build-system]
+requires = ["uv_build>=0.10,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "resize_kit"
+module-root = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+markers = [
+    "external: tests that require external binaries (ffmpeg/soffice/gs)",
+    "gui: tests that require a Qt display",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

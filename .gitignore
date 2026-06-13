@@ -1,0 +1,62 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+*.whl
+*.egg
+*.manifest
+*.spec
+
+# --- Virtual environment ---
+.venv/
+venv/
+env/
+
+# --- uv ---
+# uv.lock IS committed for application reproducibility
+# .python-version is committed (pinned Python)
+
+# --- Testing ---
+.pytest_cache/
+.coverage
+.coverage.*
+*.cover
+htmlcov/
+coverage.xml
+test-results/
+
+# --- IDE / editor ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.iml
+.vs/
+
+# --- resize-kit runtime ---
+.rk_work/
+assets/samples/
+*.tmp
+*.temp
+
+# --- External binaries (downloaded/bundled) --- tracked via git-lfs
+lib/
+external/
+
+# --- OS files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# --- Logs ---
+*.log
