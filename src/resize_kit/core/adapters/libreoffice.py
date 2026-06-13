@@ -67,7 +67,10 @@ class LibreOfficeAdapter:
         cmd = [self.soffice_path, "--headless", "--norestore"]
         if profile_dir is not None:
             profile_dir.mkdir(parents=True, exist_ok=True)
-            cmd.append(f"-env:UserInstallation=file://{profile_dir}")
+            # Path.as_uri() yields a platform-correct file URL: file:///home/...
+            # on POSIX and file:///C:/... on Windows (a bare f"file://{path}"
+            # would be malformed on Windows).
+            cmd.append(f"-env:UserInstallation={profile_dir.resolve().as_uri()}")
         cmd += [
             "--convert-to",
             convert_arg,

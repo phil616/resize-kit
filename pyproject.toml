@@ -31,6 +31,19 @@ resize-kit-gui = "resize_kit.gui.__main__:main"
 requires = ["uv_build>=0.10,<0.11"]
 build-backend = "uv_build"
 
+[tool.uv]
+# PyQt5-Qt5 publishes platform-specific wheels under *diverging* version numbers
+# (Linux/macOS reach 5.15.x while Windows tops out at an earlier wheel). Declaring
+# the target environments forces uv to produce a universal lock that selects a
+# wheel-compatible PyQt5-Qt5 version *per platform*, so `uv sync` works on Windows,
+# Linux and macOS from the same committed lockfile.
+required-environments = [
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+
 [tool.uv.build-backend]
 module-name = "resize_kit"
 module-root = "src"

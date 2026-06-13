@@ -63,6 +63,10 @@ def run(
             argv,
             capture_output=True,
             text=True,
+            # Force UTF-8 with replacement: tool stderr (ffmpeg, soffice) is UTF-8,
+            # but Windows' default locale codec would otherwise raise on odd bytes.
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
             cwd=str(cwd) if cwd else None,
             env=env,

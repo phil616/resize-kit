@@ -67,12 +67,19 @@ src/resize_kit/
 
 ## Installation
 
-resize-kit uses [uv](https://docs.astral.sh/uv/).
+resize-kit uses [uv](https://docs.astral.sh/uv/) and runs on **Windows, macOS and
+Linux**. The committed `uv.lock` is universal — it selects platform-correct wheels
+automatically (e.g. the Windows-compatible `PyQt5-Qt5` build), so the same command
+works everywhere:
 
 ```bash
 uv sync --extra dev          # create .venv and install everything (incl. dev tools)
 uv run resize-kit doctor     # check external tools
 ```
+
+> On Windows, install the external tools separately and make sure they are on
+> `PATH`: **ffmpeg/ffprobe**, **LibreOffice** (`soffice.exe`), and **Ghostscript**
+> (`gswin64c.exe`, auto-detected). `resize-kit doctor` shows what was found.
 
 ### External tools
 
