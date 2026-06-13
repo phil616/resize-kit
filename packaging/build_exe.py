@@ -36,7 +36,21 @@ ENTRY = Path(__file__).resolve().parent / "gui_entry.py"
 APP_NAME = "resize-kit-gui"
 
 
+def _configure_stdio() -> None:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name)
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
+
+
 def main(argv=None) -> int:
+    _configure_stdio()
+
     parser = argparse.ArgumentParser(
         description="Build a single-file resize-kit GUI executable.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -75,17 +89,17 @@ def main(argv=None) -> int:
     if args.clean:
         cmd.append("--clean")
 
-    print("运行：", " ".join(cmd), "\n")
+    print("Running:", " ".join(cmd), "\n")
     result = subprocess.run(cmd)
     if result.returncode != 0:
-        print("\n❌ 打包失败。", file=sys.stderr)
+        print("\nBuild failed.", file=sys.stderr)
         return result.returncode
 
     suffix = ".exe" if sys.platform == "win32" else ""
     exe = ROOT / "dist" / (APP_NAME + suffix)
-    print(f"\n✅ 打包完成：{exe}")
-    print("提示：ffmpeg / LibreOffice / Ghostscript 等外部工具未打包，")
-    print("      请在目标机器上安装并加入 PATH。")
+    print(f"\nBuild complete: {exe}")
+    print("Note: ffmpeg / LibreOffice / Ghostscript are not bundled.")
+    print("      Install them on the target machine and add them to PATH.")
     return 0
 
 
