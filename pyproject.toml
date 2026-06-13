@@ -1,11 +1,11 @@
 [project]
 name = "resize-kit"
-version = "1.0.0"
+version = "0.1.0"
 description = "Enterprise multi-format lossy compressor with precise size targeting (images, audio, video, Office, PDF)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Proprietary" }
-authors = [{ name = "resize-kit" }]
+authors = [{ name = "phil616", email = "phil616@163.com" }]
 keywords = ["compression", "image", "video", "audio", "pdf", "office", "ffmpeg"]
 
 dependencies = [
@@ -15,10 +15,16 @@ dependencies = [
     "PyQt5>=5.15",
 ]
 
+[project.urls]
+Repository = "https://github.com/phil616/resize-kit"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
     "pytest-cov>=5.0",
+]
+build = [
+    "pyinstaller>=6.0",
 ]
 
 [project.scripts]

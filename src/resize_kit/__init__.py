@@ -7,6 +7,18 @@ every supported format) or the data models in :mod:`resize_kit.core.models`.
 
 from __future__ import annotations
 
-from .version import __version__
+from .version import (
+    __author__,
+    __author_email__,
+    __repository__,
+    __version__,
+    __version_tag__,
+)
 
-__all__ = ["__version__"]
+__all__ = [
+    "__version__",
+    "__version_tag__",
+    "__author__",
+    "__author_email__",
+    "__repository__",
+]

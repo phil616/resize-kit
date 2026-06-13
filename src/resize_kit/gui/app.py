@@ -10,8 +10,11 @@ from ..logging_config import configure_logging
 _STYLESHEET = """
 QWidget { font-size: 13px; color: #1f2933; }
 #title { font-size: 24px; font-weight: 700; color: #102a43; }
+#subtitle { color: #627d98; font-size: 13px; }
 #toolStatus { color: #486581; font-size: 12px; }
 #infoLabel { color: #627d98; }
+#footer { color: #829ab1; font-size: 11px; padding-top: 6px; }
+#footer a { color: #2680c2; text-decoration: none; }
 QGroupBox {
     font-weight: 600; border: 1px solid #d9e2ec; border-radius: 8px;
     margin-top: 12px; padding: 10px;
