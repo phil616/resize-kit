@@ -1,0 +1,61 @@
+name: Release
+
+# 推送任意 `v*` 标签（例如 v0.1.0）时自动发版。
+#   git tag v0.1.0
+#   git push origin v0.1.0
+on:
+  push:
+    tags:
+      - "v*"
+
+# softprops/action-gh-release 创建/更新 Release 需要写权限。
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build Windows exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # 与 pyproject 的 requires-python / .python-version 保持一致。
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Sync dependencies (with build extra)
+        run: uv sync --extra build
+
+      - name: Build single-file exe
+        run: uv run python packaging/build_exe.py
+
+      - name: Rename artifact with tag
+        shell: pwsh
+        run: |
+          Copy-Item "dist/resize-kit-gui.exe" "dist/resize-kit-gui-${{ github.ref_name }}.exe"
+
+      - name: Upload build artifact (用于在 CI 中查看)
+        uses: actions/upload-artifact@v4
+        with:
+          name: resize-kit-gui-${{ github.ref_name }}
+          path: dist/resize-kit-gui-${{ github.ref_name }}.exe
+
+      - name: Create Release and upload exe
+        uses: softprops/action-gh-release@v2
+        with:
+          # 以标签名创建 Release，并附带构建好的 exe。
+          files: dist/resize-kit-gui-${{ github.ref_name }}.exe
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          body: |
+            ## resize-kit ${{ github.ref_name }}
+
+            面向 Windows 的单文件可执行程序（GUI），下载后可直接运行。
+
+            > **注意**：ffmpeg / LibreOffice / Ghostscript 等外部工具未打包进 exe。
+            > 使用相关功能时请自行安装并加入 PATH（可用 `resize-kit doctor` 检查）。
